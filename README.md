@@ -9,7 +9,7 @@ MyTemplate is a Flask starter application for building SaaS products. It is a re
 | Features                              | Status                                       | Details                                                                                    |
 | ------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------ |
 | User Authentication                   | ✅                                           | User Login, Registration, Forgot Password, Email Confirmation                              |
-| OAuth Login                           | ✅                                           | Login or Register with Google, Twitter, Facebook, etc.                                     |
+| OAuth Login                           | ✅                                           | Login or Register with Google (OAuth)                                                        |
 | Teams/Groups                          | ✅                                           | Multi user teams & groups (with Invite Emails)                                             |
 | User Export & Deletion Request        | ✅                                           | Allows users to export their data (for GDPR compliance)                                    |
 | API                                   | ✅                                           | API (with user tokens) users to access data                                                |
@@ -90,12 +90,17 @@ make test        # pytest + coverage (unit tests + JUnit XML report)
 make ui-test     # Playwright UI tests against the running app
 make lint        # Ruff static analysis (JSON output to reports/)
 make security    # Bandit security scan (JSON output to reports/)
-make test-only   # the original test subset used by the starter (no reports)
+```
+
+For fast feedback without reports, run a subset directly with pytest:
+
+```bash
+APPNAME_ENV=test env/bin/python -m pytest -q tests/test_urls.py tests/test_login.py tests/test_branding.py
 ```
 
 ### CI (GitHub Actions)
 
-The workflow in `.github/workflows/ci-cd.yml` runs the same steps on every push and pull request
+The workflow in `.github/workflows/quality.yml` runs the same steps on every push and pull request
 (pytest, Playwright, Ruff, Bandit) and uploads the artifacts. There is no need to stand up a
 separate CI server — after a local `git commit`, simply running `make ci` validates the same
 pipeline that the workflow will run.
