@@ -4,6 +4,71 @@ MyTemplate is a Flask starter application for building SaaS products. It is a re
 [Ignite for Flask](https://github.com/sumukh/ignite) scaffold and includes a repeatable quality pipeline
 (unit tests, UI tests, linting, security scanning, and reporting) that runs locally and in GitHub Actions.
 
+## Work Completed (Step by Step)
+
+This repository was delivered in clearly separated stages, each verified before moving on:
+
+1. **Environment setup (baseline)**
+   - Created a Python 3.12 virtual environment and installed all dependencies (`requirements.txt`).
+   - Fixed `TestConfig` in `appname/settings.py` so tests can create their database on Windows
+     (`tempfile.mkstemp()` instead of `NamedTemporaryFile()`, which held a file lock).
+   - Ran the original suite: **102 tests passed** — the starter was healthy before any changes.
+
+2. **Branding rename: Ignite → MyTemplate**
+   - Renamed every user-facing occurrence of the product name, domain and logo asset paths:
+     - `appname/services/branding.py` (name, `mytemplate.com` domains, asset paths)
+     - `appname/settings.py` (mail sender domain)
+     - Auth/OAuth flash messages (`appname/controllers/auth.py`, `oauth/google.py`)
+     - All mailers (`appname/mailers/`) and templates (lander, dashboard, tabler header/footer,
+       email base + purchase receipt)
+     - Static assets moved with `git mv` to `appname/static/public/mytemplate/`
+       (redrawn `mytemplate-logo.svg`, new `demo-1.png` hero screenshot taken with a real browser)
+     - `README.md`, `AGENTS.md`, `app.json`, `documentation/dokku.md`, `.gitignore`
+   - Upstream attribution links (github.com/sumukh/ignite, license) are intentionally kept.
+
+3. **Test coverage added (8 new tests)**
+   - `tests/test_branding.py` (4 tests): landing/login/signup pages render the new brand, and the
+     signup flow welcomes the user with "Welcome to MyTemplate."
+   - `tests/ui/test_ui_flow.py` (4 Playwright UI tests, chromium): landing branding, full signup →
+     dashboard journey, seeded login, and wrong-password rejection. `tests/ui/conftest.py`
+     self-starts the live Flask server for the browser session.
+
+4. **Linting fixed (Ruff, rules E/F)**
+   - Configured in `pyproject.toml` (`line-length = 120`).
+   - Removed unused imports, a duplicate import, dead code, and a misleading parameter name
+     across `appname/api/`, controllers, services, mailers and models. **Result: 0 issues.** No
+     blanket ignores were used — every finding was a real fix.
+
+5. **Security scan fixed (Bandit) — 2 real findings fixed in code**
+   - `B201`: the dev server hard-coded `debug=True` → now reads `app.config.get('DEBUG', False)`.
+   - `B324`: MD5 hashing → replaced with SHA-256 in `appname/services/security.py`.
+   - **Result: 0 issues, nothing suppressed.**
+
+6. **Quality pipeline built**
+   - `Makefile` (`make ci` = lint → security → tests → UI tests → reports) and its Windows twin
+     `scripts/ci.ps1`; both write machine-readable artifacts to `reports/`.
+   - `.github/workflows/quality.yml` runs the identical pipeline on every push/PR and uploads the
+     reports as an artifact.
+
+7. **Documentation**
+   - Rewrote `README.md`, wrote `documentation/task_report.md` (full step-by-step task report),
+     updated `AGENTS.md` and `documentation/dokku.md`.
+
+8. **Final verification (full pipeline run, `scripts/ci.ps1`)**
+
+   | Check | Result |
+   |---|---|
+   | Unit tests (pytest) | 106/106 passed |
+   | UI tests (Playwright, chromium) | 4/4 passed |
+   | Line coverage (pytest-cov) | 87.38% (1,295/1,482 lines) |
+   | Branch coverage | 74.78% (169/226 branches) |
+   | Ruff (E, F) | 0 issues |
+   | Bandit | 0 issues |
+
+9. **Delivery**
+   - Committed to `master` (working tree clean, history preserved via `git mv`) and pushed to a
+     public repository: https://github.com/premmuthusame1-merp/MyTemplate
+
 ## Features
 
 | Features                              | Status                                       | Details                                                                                    |
