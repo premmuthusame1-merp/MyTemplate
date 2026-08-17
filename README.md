@@ -69,6 +69,10 @@ This repository was delivered in clearly separated stages, each verified before 
    - Committed to `master` (working tree clean, history preserved via `git mv`) and pushed to a
      public repository: https://github.com/premmuthusame1-merp/MyTemplate
 
+## Application Screenshot
+
+![MyTemplate application](appname/static/public/mytemplate/app-screenshot.png)
+
 ## Features
 
 | Features                              | Status                                       | Details                                                                                    |
