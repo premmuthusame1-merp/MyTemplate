@@ -27,7 +27,9 @@ def server():
     ` $ FLASK_APP=manage flask --debug run `
     Do not use this for production (since it runs in debug mode)
     """
-    return app.run(debug=True)
+    # Debug follows the active config (on in dev, off in prod) so the
+    # Werkzeug debugger can never be exposed accidentally in production.
+    return app.run(debug=app.config.get('DEBUG', False))
 
 @app.cli.command()
 def initdb():
@@ -99,6 +101,9 @@ def test(coverage):
 
     if coverage:
         args.extend(["--cov-report=term-missing", "--cov=appname"])
+
+    # UI tests (Playwright) are run separately via `make ui-test`
+    args.extend(["--ignore=tests/ui"])
 
     pytest.main(args + ["tests/"])
 

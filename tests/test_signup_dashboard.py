@@ -44,7 +44,7 @@ class TestSignupAndDashboard:
 
         assert response.status_code == 200
         body = response.get_data(as_text=True)
-        assert "Welcome to appname." in body
+        assert "Welcome to MyTemplate." in body
         assert "Dashboard" in body
 
         new_user = User.lookup("fresh-user@example.com")

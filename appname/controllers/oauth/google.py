@@ -76,7 +76,7 @@ def google_logged_in(blueprint, token):
         db.session.commit()
         # Log in the new local user account
         login_user(user)
-        flash("Welcome to appname!", 'success')
+        flash("Welcome to MyTemplate!", 'success')
 
     # Disable Flask-Dance's default behavior for saving the OAuth token
     return False

@@ -17,7 +17,7 @@ class Config(object):
     MAIL_USERNAME = os.getenv('MAIL_USERNAME')
     MAIL_USE_TLS = os.getenv('MAIL_USE_TLS', True)
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
-    MAIL_DEFAULT_SENDER = 'appname <admin@appname.com>'
+    MAIL_DEFAULT_SENDER = 'MyTemplate <admin@mytemplate.com>'
 
     SEGMENT_ANALYTICS_KEY = os.getenv('SEGMENT_ANALYTICS_KEY')
     STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
@@ -80,8 +80,11 @@ class TestConfig(Config):
     DEBUG = True
     DEBUG_TB_INTERCEPT_REDIRECTS = False
 
-    db_file = tempfile.NamedTemporaryFile()
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + db_file.name
+    # NamedTemporaryFile holds a lock on Windows, which SQLite cannot open.
+    # Use mkstemp instead so the file is closed before SQLAlchemy uses it.
+    fd, db_file_name = tempfile.mkstemp(suffix='.db')
+    os.close(fd)
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + db_file_name
     SQLALCHEMY_ECHO = False  # Optionally enable if you want to see database actions
     ASSETS_DEBUG = True
 

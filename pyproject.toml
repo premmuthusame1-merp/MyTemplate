@@ -1,0 +1,6 @@
+[tool.ruff]
+line-length = 120
+extend-exclude = ["env", "migrations", "appname/static", "tmp"]
+
+[tool.ruff.lint]
+select = ["E", "F"]

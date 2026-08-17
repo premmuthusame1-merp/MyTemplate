@@ -4,7 +4,7 @@ This file is a practical runbook for AI coding agents working in this repository
 
 ## What This Repo Is
 
-Ignite is a Flask starter app with:
+MyTemplate is a Flask starter app with:
 - Auth (email/password + Google OAuth)
 - Team/membership model
 - Billing hooks (Stripe)
@@ -16,7 +16,7 @@ Primary package: `appname/`
 ## Fast Start (Local Development)
 
 ```bash
-cd /Users/sumukh/code/Ignite
+cd /Users/sumukh/code/MyTemplate
 python3 -m venv env
 source env/bin/activate
 pip install -r requirements.txt
@@ -36,22 +36,34 @@ Seeded dev logins after `resetdb`:
 
 ## Core Commands
 
+The standard quality pipeline is `make ci` (or `scripts\ci.ps1` on Windows).
+All artifacts land in `reports/` (JUnit XML, coverage XML+HTML, ruff JSON, bandit JSON).
+
 ```bash
-# Lint
-make lint
+# Full quality pipeline: lint (ruff) -> security (bandit) -> tests -> UI tests
+make ci
 
-# Full tracked test suite (recommended)
-make agent-test
+# Individual steps
+make lint        # ruff static analysis (reports/ruff.json)
+make security    # bandit security scan (reports/bandit.json)
+make test        # pytest + coverage (reports/junit.xml, coverage.xml, html/)
+make ui-test     # playwright UI tests (reports/ui-junit.xml, reports/ui/)
 
-# Full test discovery (also runs untracked local tests, if any)
+# Fast unit-only subset (no reports, quick feedback)
+APPNAME_ENV=test env/bin/python -m pytest -q tests/test_urls.py tests/test_login.py tests/test_branding.py
+
+# Legacy full-suite runner (no reports)
 APPNAME_ENV=test ./manage.py test --coverage
-
-# Or raw pytest
-APPNAME_ENV=test pytest --cov-report=term-missing --cov=appname tests/
 
 # Quick DB reset + seed (dev only)
 APPNAME_ENV=dev ./manage.py resetdb
+
+# Windows (no make): the same pipeline, same artifacts
+powershell -ExecutionPolicy Bypass -File scripts\ci.ps1
 ```
+
+Note: `make` targets run under a POSIX shell (CI/macOS/Linux/WSL).
+On native Windows PowerShell use `scripts\ci.ps1` instead.
 
 ## Project Map
 
@@ -67,6 +79,8 @@ APPNAME_ENV=dev ./manage.py resetdb
 - `appname/models/`: SQLAlchemy models
 - `appname/templates/`: Jinja templates
 - `tests/`: pytest suite
+- `tests/ui/`: Playwright UI tests (self-start a live dev server via conftest)
+- `scripts/ci.ps1`: Windows PowerShell equivalent of `make ci`
 - `documentation/`: deployment/integration notes
 
 ## Config + Environment

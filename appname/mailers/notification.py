@@ -4,7 +4,7 @@ from appname.mailers import Mailer
 
 class NotificationMailer(Mailer):
     TEMPLATE = 'email/notification.html'
-    DEFAULT_SUBJECT = "[appname] New notification"
+    DEFAULT_SUBJECT = "[MyTemplate] New notification"
 
     def __init__(self, user, subject, text, link=None, attachments=None):
         self.recipient = None
@@ -19,6 +19,6 @@ class NotificationMailer(Mailer):
         return self._subject or self.DEFAULT_SUBJECT
 
     def send(self):
-        html_body = render_template(self.TEMPLATE, body=self.text, link=self.link, link_text="View on Appname")
+        html_body = render_template(self.TEMPLATE, body=self.text, link=self.link, link_text="View on MyTemplate")
         return self.deliver_now(self.recipient_email, self.subject, html_body,
                                 attachments=self.attachments)

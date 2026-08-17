@@ -74,7 +74,7 @@ def signup():
             # Send confirm email
             ConfirmEmail(user).send()
 
-        flash("Welcome to appname.", "success")
+        flash("Welcome to MyTemplate.", "success")
         return redirect(request.args.get("next") or url_for("dashboard_home.index"))
 
     return render_template("auth/signup.html", form=form, invite_secret=request.args.get('invite_secret'))

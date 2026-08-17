@@ -34,6 +34,10 @@ database.db
 .vscode
 .pytest_cache
 
+# Quality pipeline artifacts (make ci / scripts/ci.ps1)
+reports/
+test-results/
+
 # Sphinx
 docs/_build
 
@@ -54,5 +58,5 @@ tmp/*
 !tmp/.touch
 appname/static/public/*
 !appname/static/public/images/*
-!appname/static/public/ignite/*
+!appname/static/public/mytemplate/*
 !appname/static/public/fonts/*

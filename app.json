@@ -1,12 +1,12 @@
 {
 
-  "name": "appname",
+  "name": "MyTemplate",
   "description": "Flask App",
   "keywords": [
     "flask",
     "saas",
     "scaffolding",
-    "ignite"
+    "mytemplate"
   ],
   "website": "https://github.com/sumukh/ignite/",
   "repository": "https://github.com/sumukh/ignite/",

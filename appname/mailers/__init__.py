@@ -16,10 +16,10 @@ def send_email_raw(to_emails, subject, html_body,
              (https://pythonhosted.org/Flask-Mail#bulk-emails)
 
     Usage:
-    send_email_raw('user@example.com', 'Hey from appname', 'this is the message',
-                cc=['test@example.com'], reply_to='appname@example.com')
-    send_email_raw(['user@example.com'], 'Hey from appname', 'this is the message',
-                reply_to='appname@example.com')
+    send_email_raw('user@example.com', 'Hey from MyTemplate', 'this is the message',
+                cc=['test@example.com'], reply_to='mytemplate@example.com')
+    send_email_raw(['user@example.com'], 'Hey from MyTemplate', 'this is the message',
+                reply_to='mytemplate@example.com')
     """
     if not isinstance(to_emails, list):
         to_emails = [to_emails]
@@ -34,7 +34,7 @@ def send_email_raw(to_emails, subject, html_body,
 
 class Mailer:
     TEMPLATE = 'email/notification.html'
-    DEFAULT_SUBJECT = "New Message from appname"
+    DEFAULT_SUBJECT = "New Message from MyTemplate"
     DEFAULT_LINK_TEXT = None
     DEFAULT_LINK_URL = None
 
