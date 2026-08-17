@@ -69,6 +69,16 @@ This repository was delivered in clearly separated stages, each verified before 
    - Committed to `master` (working tree clean, history preserved via `git mv`) and pushed to a
      public repository: https://github.com/premmuthusame1-merp/MyTemplate
 
+## Application Screenshots
+
+The application running locally at `http://localhost:5000` (landing page):
+
+![MyTemplate landing page](appname/static/public/mytemplate/app-screenshot-landing.png)
+
+Logged-in dashboard (seeded account `user@example.com`):
+
+![MyTemplate dashboard](appname/static/public/mytemplate/app-screenshot-dashboard.png)
+
 ## Features
 
 | Features                              | Status                                       | Details                                                                                    |
