@@ -57,6 +57,9 @@ env*
 tmp/*
 !tmp/.touch
 appname/static/public/*
+!appname/static/public/images
 !appname/static/public/images/*
+!appname/static/public/mytemplate
 !appname/static/public/mytemplate/*
+!appname/static/public/fonts
 !appname/static/public/fonts/*
