@@ -70,7 +70,7 @@ rq-dashboard==0.8.6
 stripe==6.0.0
 
 # For 3.11 and higher, setuptools is required to not get import errors on RQ2
-setuptools>=65,<81
+setuptools>=84.0.0,<85
 
 # Error Tracking
 sentry-sdk[flask]>=2.0,<3
